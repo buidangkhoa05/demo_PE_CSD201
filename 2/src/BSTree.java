@@ -110,13 +110,15 @@ public class BSTree {
                             break;
                         }
                         cNode = cNode.right;
-                    } else {
+                    } else if (xRate < cNode.info.rate) {
                         if (cNode.left == null) {
                             cNode.left = new Node(new Boo(xForest, xRate, xSound));
                             cNode.left.level = level;
                             break;
                         }
                         cNode = cNode.left;
+                    } else {
+                        return;
                     }
                 }
             }
@@ -201,7 +203,8 @@ public class BSTree {
         f.close();
     }
 
-    int countChild(Node parent) {
+    int countChild(Node parent
+    ) {
         if (parent.left == null && parent.right == null) {
             return 0;
         }
@@ -212,7 +215,8 @@ public class BSTree {
         return 2;
     }
 
-    Node deleteLeaf(Node parent, Node dChild) {
+    Node deleteLeaf(Node parent, Node dChild
+    ) {
         if (dChild == root) {
             root = null;
         }
@@ -224,7 +228,8 @@ public class BSTree {
         return dChild;
     }
 
-    Node delete1ChildNode(Node parent, Node dChild) {
+    Node delete1ChildNode(Node parent, Node dChild
+    ) {
         if (dChild == root) {
             root = root.left != null ? root.left : root.right;
         }
@@ -242,7 +247,8 @@ public class BSTree {
         return dChild;
     }
 
-    Node delete2ChildNode(Node dNode) {
+    Node delete2ChildNode(Node dNode
+    ) {
         Node father = dNode;
         Node rightMost = dNode.left;
         while (rightMost.right != null) {
@@ -258,7 +264,8 @@ public class BSTree {
         return deleteLeaf(father, rightMost);
     }
 
-    void deleteNode(Node dNode) {
+    void deleteNode(Node dNode
+    ) {
         Node parent = null;
         Node cNode = root;
         while (cNode != null) {
@@ -333,7 +340,8 @@ public class BSTree {
         f.close();
     }
 
-    Node rightMost(Node node) {
+    Node rightMost(Node node
+    ) {
         Node rightChildNode = node;
         while (rightChildNode.right != null) {
             rightChildNode = rightChildNode.right;
@@ -341,7 +349,8 @@ public class BSTree {
         return rightChildNode;
     }
 
-    void rotateToRightOfLeftChild(Node parentNode, Node rNode) {
+    void rotateToRightOfLeftChild(Node parentNode, Node rNode
+    ) {
         Node leftChild = rNode.left;
         rNode.left = null; // remove child 
         // set child into new position
@@ -354,15 +363,17 @@ public class BSTree {
         rightMostNodeOfChild.right = rNode;
     }
 
-    Node leftMost(Node node) {
-          Node leftChildNode = node;
+    Node leftMost(Node node
+    ) {
+        Node leftChildNode = node;
         while (leftChildNode.left != null) {
             leftChildNode = leftChildNode.left;
         }
         return leftChildNode;
     }
 
-    void rotateToLeftOfRightChild(Node parentNode, Node rNode) {
+    void rotateToLeftOfRightChild(Node parentNode, Node rNode
+    ) {
         Node rightChild = rNode.right;
         rNode.right = null; // remove child 
         // set child into new position
@@ -375,7 +386,9 @@ public class BSTree {
         rightMostNodeOfChild.left = rNode;
     }
 
-    void rotateIntoChild(Node parent, Node rNode, String mode) {
+    void rotateIntoChild(Node parent, Node rNode,
+             String mode
+    ) {
 
         if (mode.equalsIgnoreCase("rightChild")) {
             if (rNode.right == null) {
