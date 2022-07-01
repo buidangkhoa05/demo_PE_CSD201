@@ -205,11 +205,23 @@ public class Graph {
        to complete the question in the exam paper.*/
         // You can use the statement fvisit(i,f); i = 0, 1, 2,...,n-1 to display the vertex i to file f2.txt 
         //  and statement f.writeBytes(" " + k); to write  variable k to the file f2.txt  
+        
+        ArrayList<Integer> path1 = new ArrayList<>();
+        ArrayList<Integer> setS1 = new ArrayList<>();
+        ArrayList<Integer> path2 = new ArrayList<>();
+        ArrayList<Integer> setS2 = new ArrayList<>();
+        
+        dijikstra(setS2, path2, 0, 6);
         //path2
-        fvisit2(getShortestPath(this, 0, 6), f);
+//        fvisit2(getShortestPath(this, 0, 6), f);
+        for (Integer integer : path2) {
+            fvisit(integer, f);
+        }
         f.writeBytes("\r\n");
         //4 last of S
-         
+        for (int i = setS2.size() - 4; i < setS2.size(); i++) {
+            fvisit(setS2.get(i), f);  
+        }
         f.writeBytes("\r\n");
         //path 1
         fvisit2(getShortestPath(this, 2, 5), f);
@@ -222,6 +234,8 @@ public class Graph {
         f.writeBytes("  " + result);
     }
 
+    static final int INF = 99;
+
     String getShortestPath(Graph g, int startV, int endV) {
         String result = "";
         DJFinder DJF = new DJFinder(g);
@@ -231,6 +245,71 @@ public class Graph {
             result += string + " ";
         }
         return result.trim();
+    }
+
+    void dijikstra(ArrayList<Integer> setS, ArrayList<Integer> path, int startV, int endV) {
+
+        boolean[] flags = new boolean[n];
+        int[] costs = new int[n];
+        int[] predecessors = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            flags[i] = false;
+            costs[i] = a[startV][i];
+            predecessors[i] = startV;
+        }
+
+        flags[startV] = true;
+
+        int cheapestCost;
+        int cheapestNode;
+        
+        while (true) {
+            cheapestCost = INF;
+            cheapestNode = -1;
+
+            for (int i = 0; i < n; i++) {
+                if (!flags[i]) {
+                    if (costs[i] < cheapestCost) {
+                        cheapestCost = costs[i];
+                        cheapestNode = i;
+                    }
+                }
+            }
+
+            if (cheapestNode == -1) {
+                return;
+            }
+            flags[cheapestNode] = true;
+            setS.add(cheapestNode);
+            if (cheapestNode == endV) {
+                break;
+            }
+
+            for (int i = 0; i < n; i++) {
+                if (!flags[i]) {
+                    if (costs[i] > costs[cheapestNode] + a[cheapestNode][i]) {
+                        costs[i] = costs[cheapestNode] + a[cheapestNode][i];
+                        predecessors[i] = cheapestNode;
+                    }
+                }
+            }
+        }
+        
+        Stack stack = new Stack();
+        int i = endV;
+        while (true) {
+            stack.push(predecessors[i]);
+            if (i == startV) {
+                break;
+            }
+            i = predecessors[i];
+        }
+        
+        while (!stack.isEmpty()) {
+            i = stack.pop();
+            path.add(i);
+        }
     }
 
 }
