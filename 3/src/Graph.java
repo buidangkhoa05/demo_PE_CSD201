@@ -299,7 +299,7 @@ public class Graph {
         Stack stack = new Stack();
         int i = endV;
         while (true) {
-            stack.push(predecessors[i]);
+            stack.push(i);
             if (i == startV) {
                 break;
             }
