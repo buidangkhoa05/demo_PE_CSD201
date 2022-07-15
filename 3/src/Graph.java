@@ -212,19 +212,22 @@ public class Graph {
         ArrayList<Integer> setS2 = new ArrayList<>();
         
         dijikstra(setS2, path2, 0, 6);
+        dijikstra(setS1, path1, 2, 5);
+        
         //path2
-//        fvisit2(getShortestPath(this, 0, 6), f);
         for (Integer integer : path2) {
             fvisit(integer, f);
         }
         f.writeBytes("\r\n");
         //4 last of S
         for (int i = setS2.size() - 4; i < setS2.size(); i++) {
-            fvisit(setS2.get(i), f);  
+            fvisit(setS2.get(i), f);
         }
         f.writeBytes("\r\n");
         //path 1
-        fvisit2(getShortestPath(this, 2, 5), f);
+        for (Integer integer : path1) {
+            fvisit(integer, f);
+        }
         //-------------------------------------------------------------------------------------
         f.writeBytes("\r\n");
         f.close();
